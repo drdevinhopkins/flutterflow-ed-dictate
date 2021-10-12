@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
+import 'package:json_path/json_path.dart';
 
 import 'lat_lng.dart';
 
@@ -38,7 +39,12 @@ Future launchURL(String url) async {
 
 DateTime get getCurrentTimestamp => DateTime.now();
 
-bool get isIos => !kIsWeb && Platform.isIOS;
+dynamic getJsonField(dynamic response, String jsonPath) {
+  final field = JsonPath(jsonPath).read(response);
+  return field.isNotEmpty ? field.first.value : null;
+}
+
+bool get isAndroid => !kIsWeb && Platform.isAndroid;
 
 LatLng cachedUserLocation;
 Future<LatLng> getCurrentUserLocation(

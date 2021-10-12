@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "369053323",
+    "project_id": "ed-dictate",
+    "storage_bucket": "ed-dictate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369053323:android:c55852f0217adf46414e8e",
+        "android_client_info": {
+          "package_name": "com.flutterflow.eddictate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369053323-mv1m801jluvnc8ebrgpet5qeqho3ekgs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.eddictate",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "369053323-j903v5ig0nrjrrmkmjjsvnecb7977dmr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbBDimbrN61V6gxr2UQSQ_2ea_dYiz7jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369053323-j903v5ig0nrjrrmkmjjsvnecb7977dmr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "369053323-5lsb7tl8bmpln0ebk1outcuqktjjnhdg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.eddictate"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
