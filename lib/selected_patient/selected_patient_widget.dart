@@ -113,9 +113,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'Last Name',
-                            labelStyle: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                            ),
+                            labelStyle: FlutterFlowTheme.bodyText1,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0x00000000),
@@ -137,9 +135,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                               ),
                             ),
                           ),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                          ),
+                          style: FlutterFlowTheme.bodyText1,
                         ),
                         TextFormField(
                           controller: textController2 ??= TextEditingController(
@@ -148,9 +144,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelText: 'First Name',
-                            labelStyle: FlutterFlowTheme.bodyText1.override(
-                              fontFamily: 'Poppins',
-                            ),
+                            labelStyle: FlutterFlowTheme.bodyText1,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0x00000000),
@@ -172,9 +166,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                               ),
                             ),
                           ),
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                          ),
+                          style: FlutterFlowTheme.bodyText1,
                         ),
                         Row(
                           mainAxisSize: MainAxisSize.max,
@@ -189,10 +181,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                 obscureText: false,
                                 decoration: InputDecoration(
                                   labelText: 'Age',
-                                  labelStyle:
-                                      FlutterFlowTheme.bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                  ),
+                                  labelStyle: FlutterFlowTheme.bodyText1,
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Color(0x00000000),
@@ -214,9 +203,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                     ),
                                   ),
                                 ),
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Poppins',
-                                ),
+                                style: FlutterFlowTheme.bodyText1,
                                 keyboardType: TextInputType.number,
                               ),
                             ),
@@ -283,9 +270,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                     child: Text(
                       'Notes',
-                      style: FlutterFlowTheme.title3.override(
-                        fontFamily: 'Poppins',
-                      ),
+                      style: FlutterFlowTheme.title3,
                     ),
                   ),
                   Expanded(
@@ -349,9 +334,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                   title: Text(
                                     dateTimeFormat('relative',
                                         listViewNotesRecord.timestamp),
-                                    style: FlutterFlowTheme.title3.override(
-                                      fontFamily: 'Poppins',
-                                    ),
+                                    style: FlutterFlowTheme.title3,
                                   ),
                                   trailing: Icon(
                                     Icons.arrow_forward_ios,

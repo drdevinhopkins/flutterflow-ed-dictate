@@ -39,9 +39,20 @@ Future launchURL(String url) async {
 
 DateTime get getCurrentTimestamp => DateTime.now();
 
+extension DateTimeComparisonOperators on DateTime {
+  bool operator <(DateTime other) => isBefore(other);
+  bool operator >(DateTime other) => isAfter(other);
+  bool operator <=(DateTime other) => this < other || isAtSameMomentAs(other);
+  bool operator >=(DateTime other) => this > other || isAtSameMomentAs(other);
+}
+
 dynamic getJsonField(dynamic response, String jsonPath) {
   final field = JsonPath(jsonPath).read(response);
-  return field.isNotEmpty ? field.first.value : null;
+  return field.isNotEmpty
+      ? field.length > 1
+          ? field.map((f) => f.value).toList()
+          : field.first.value
+      : null;
 }
 
 bool get isAndroid => !kIsWeb && Platform.isAndroid;

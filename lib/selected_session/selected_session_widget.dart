@@ -98,9 +98,7 @@ class _SelectedSessionWidgetState extends State<SelectedSessionWidget> {
                     padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 20),
                     child: Text(
                       'Patients',
-                      style: FlutterFlowTheme.title3.override(
-                        fontFamily: 'Poppins',
-                      ),
+                      style: FlutterFlowTheme.title3,
                     ),
                   ),
                   Expanded(
@@ -161,9 +159,7 @@ class _SelectedSessionWidgetState extends State<SelectedSessionWidget> {
                                 child: ListTile(
                                   title: Text(
                                     '${listViewPatientsRecord.lastName}, ${listViewPatientsRecord.firstName}',
-                                    style: FlutterFlowTheme.title3.override(
-                                      fontFamily: 'Poppins',
-                                    ),
+                                    style: FlutterFlowTheme.title3,
                                   ),
                                   trailing: Icon(
                                     Icons.arrow_forward_ios,
