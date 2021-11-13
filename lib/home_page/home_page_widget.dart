@@ -2,7 +2,7 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../phone_auth/phone_auth_widget.dart';
+import '../login/login_widget.dart';
 import '../selected_session/selected_session_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PhoneAuthWidget(),
+                    builder: (context) => LoginWidget(),
                   ),
                   (r) => false,
                 );

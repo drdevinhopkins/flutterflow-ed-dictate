@@ -172,6 +172,7 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                                 fontSize: 14,
                                 fontWeight: FontWeight.normal,
                               ),
+                              keyboardType: TextInputType.phone,
                             ),
                           )
                         ],

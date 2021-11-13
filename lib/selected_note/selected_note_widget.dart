@@ -44,7 +44,7 @@ class _SelectedNoteWidgetState extends State<SelectedNoteWidget> {
             backgroundColor: FlutterFlowTheme.primaryColor,
             automaticallyImplyLeading: true,
             title: Text(
-              dateTimeFormat('relative', selectedNoteNotesRecord.timestamp),
+              selectedNoteNotesRecord.type,
               style: FlutterFlowTheme.title2.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.tertiaryColor,
@@ -55,15 +55,6 @@ class _SelectedNoteWidgetState extends State<SelectedNoteWidget> {
             elevation: 4,
           ),
           backgroundColor: Color(0xFFF5F5F5),
-          body: SafeArea(
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [],
-              ),
-            ),
-          ),
         );
       },
     );

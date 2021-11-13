@@ -16,10 +16,38 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
   DateTime get timestamp;
 
   @nullable
+  String get type;
+
+  @nullable
+  String get cc;
+
+  @nullable
+  String get hpi;
+
+  @nullable
+  String get pmhx;
+
+  @nullable
+  String get socialhx;
+
+  @nullable
+  String get allergies;
+
+  @nullable
+  String get meds;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
-  static void _initializeBuilder(NotesRecordBuilder builder) => builder;
+  static void _initializeBuilder(NotesRecordBuilder builder) => builder
+    ..type = ''
+    ..cc = ''
+    ..hpi = ''
+    ..pmhx = ''
+    ..socialhx = ''
+    ..allergies = ''
+    ..meds = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('notes');
@@ -41,9 +69,23 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
 Map<String, dynamic> createNotesRecordData({
   DocumentReference patient,
   DateTime timestamp,
+  String type,
+  String cc,
+  String hpi,
+  String pmhx,
+  String socialhx,
+  String allergies,
+  String meds,
 }) =>
     serializers.toFirestore(
         NotesRecord.serializer,
         NotesRecord((n) => n
           ..patient = patient
-          ..timestamp = timestamp));
+          ..timestamp = timestamp
+          ..type = type
+          ..cc = cc
+          ..hpi = hpi
+          ..pmhx = pmhx
+          ..socialhx = socialhx
+          ..allergies = allergies
+          ..meds = meds));

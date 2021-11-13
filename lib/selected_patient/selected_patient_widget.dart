@@ -1,10 +1,11 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../components/select_type_of_note_widget.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../selected_note/selected_note_widget.dart';
+import '../initial_note/initial_note_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -23,7 +24,6 @@ class SelectedPatientWidget extends StatefulWidget {
 }
 
 class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
-  NotesRecord newNote;
   String genderDropDownValue;
   TextEditingController textController3;
   bool _loadingButton = false;
@@ -68,24 +68,15 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
           backgroundColor: Color(0xFFF5F5F5),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              final notesCreateData = createNotesRecordData(
-                timestamp: getCurrentTimestamp,
-                patient: widget.selectedPatient,
+              await showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return SelectTypeOfNoteWidget(
+                    patient: widget.selectedPatient,
+                  );
+                },
               );
-              final notesRecordReference = NotesRecord.collection.doc();
-              await notesRecordReference.set(notesCreateData);
-              newNote = NotesRecord.getDocumentFromData(
-                  notesCreateData, notesRecordReference);
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SelectedNoteWidget(
-                    selectedNote: newNote.reference,
-                  ),
-                ),
-              );
-
-              setState(() {});
             },
             backgroundColor: FlutterFlowTheme.primaryColor,
             elevation: 8,
@@ -310,7 +301,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                 await Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SelectedNoteWidget(
+                                    builder: (context) => InitialNoteWidget(
                                       selectedNote:
                                           listViewNotesRecord.reference,
                                     ),
@@ -332,8 +323,7 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                 ],
                                 child: ListTile(
                                   title: Text(
-                                    dateTimeFormat('relative',
-                                        listViewNotesRecord.timestamp),
+                                    listViewNotesRecord.type,
                                     style: FlutterFlowTheme.title3,
                                   ),
                                   trailing: Icon(
