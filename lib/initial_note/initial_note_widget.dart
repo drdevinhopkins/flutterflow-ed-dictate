@@ -91,36 +91,58 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                color: Color(0xFFF5F5F5),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 20, 20, 20),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Align(
-                                        alignment: AlignmentDirectional(-1, 0),
-                                        child: AutoSizeText(
-                                          'Chief Complaint(s)',
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: AlignmentDirectional(-1, 0),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0, 20, 0, 0),
-                                          child: Text(
-                                            initialNoteNotesRecord.cc,
-                                            style: FlutterFlowTheme.bodyText1,
+                              child: InkWell(
+                                onTap: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (alertDialogContext) {
+                                      return AlertDialog(
+                                        title: Text('test'),
+                                        content: Text('test'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                alertDialogContext),
+                                            child: Text('Ok'),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Card(
+                                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                                  color: Color(0xFFF5F5F5),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        20, 20, 20, 20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: AutoSizeText(
+                                            'Chief Complaint(s)',
+                                            textAlign: TextAlign.start,
+                                            style: FlutterFlowTheme.subtitle2,
                                           ),
                                         ),
-                                      )
-                                    ],
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1, 0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 20, 0, 0),
+                                            child: Text(
+                                              initialNoteNotesRecord.cc,
+                                              style: FlutterFlowTheme.bodyText1,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
