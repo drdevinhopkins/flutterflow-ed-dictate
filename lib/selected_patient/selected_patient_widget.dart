@@ -1,8 +1,11 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
+import '../components/select_type_of_note_widget.dart';
 import '../flutter_flow/flutter_flow_drop_down.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../initial_note/initial_note_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -26,14 +29,6 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
   TextEditingController textController1;
   TextEditingController textController2;
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
-    textController3 = TextEditingController();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +66,19 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
           ),
           backgroundColor: Color(0xFFF5F5F5),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print('FloatingActionButton pressed ...');
+            onPressed: () async {
+              await showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (context) {
+                  return Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: SelectTypeOfNoteWidget(
+                      patient: widget.selectedPatient,
+                    ),
+                  );
+                },
+              );
             },
             backgroundColor: FlutterFlowTheme.of(context).primaryColor,
             elevation: 8,
@@ -94,9 +100,12 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         TextFormField(
-                          controller: textController1,
+                          controller: textController1 ??= TextEditingController(
+                            text: selectedPatientPatientsRecord.lastName,
+                          ),
                           obscureText: false,
                           decoration: InputDecoration(
+                            labelText: 'Last Name',
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0x00000000),
@@ -121,9 +130,12 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                           style: FlutterFlowTheme.of(context).bodyText1,
                         ),
                         TextFormField(
-                          controller: textController2,
+                          controller: textController2 ??= TextEditingController(
+                            text: selectedPatientPatientsRecord.firstName,
+                          ),
                           obscureText: false,
                           decoration: InputDecoration(
+                            labelText: 'First Name',
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Color(0x00000000),
@@ -152,9 +164,14 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                controller: textController3,
+                                controller: textController3 ??=
+                                    TextEditingController(
+                                  text: selectedPatientPatientsRecord.age
+                                      .toString(),
+                                ),
                                 obscureText: false,
                                 decoration: InputDecoration(
+                                  labelText: 'Age',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       color: Color(0x00000000),
@@ -181,7 +198,9 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                               ),
                             ),
                             FlutterFlowDropDown(
-                              options: [].toList(),
+                              initialOption: genderDropDownValue ??=
+                                  selectedPatientPatientsRecord.gender,
+                              options: ['Male', 'Female', 'Other'].toList(),
                               onChanged: (val) =>
                                   setState(() => genderDropDownValue = val),
                               width: 130,
@@ -201,8 +220,16 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                                   EdgeInsetsDirectional.fromSTEB(8, 4, 8, 4),
                             ),
                             FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                final patientsUpdateData =
+                                    createPatientsRecordData(
+                                  lastName: textController1?.text ?? '',
+                                  firstName: textController2?.text ?? '',
+                                  age: int.parse(textController3?.text ?? ''),
+                                  gender: genderDropDownValue,
+                                );
+                                await selectedPatientPatientsRecord.reference
+                                    .update(patientsUpdateData);
                               },
                               text: 'Update',
                               options: FFButtonOptions(
@@ -268,37 +295,53 @@ class _SelectedPatientWidgetState extends State<SelectedPatientWidget> {
                           itemBuilder: (context, listViewIndex) {
                             final listViewNotesRecord =
                                 listViewNotesRecordList[listViewIndex];
-                            return Slidable(
-                              actionPane: const SlidableScrollActionPane(),
-                              secondaryActions: [
-                                IconSlideAction(
-                                  caption: '',
-                                  color: Color(0xFFD32F2F),
-                                  icon: Icons.delete_outline,
-                                  onTap: () {
-                                    print('SlidableActionWidget pressed ...');
-                                  },
+                            return InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InitialNoteWidget(
+                                      selectedNote:
+                                          listViewNotesRecord.reference,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Slidable(
+                                actionPane: const SlidableScrollActionPane(),
+                                secondaryActions: [
+                                  IconSlideAction(
+                                    caption: 'Delete',
+                                    color: Color(0xFFD32F2F),
+                                    icon: Icons.delete_outline,
+                                    onTap: () async {
+                                      await listViewNotesRecord.reference
+                                          .delete();
+                                    },
+                                  ),
+                                ],
+                                child: ListTile(
+                                  title: Text(
+                                    listViewNotesRecord.type,
+                                    style: FlutterFlowTheme.of(context).title3,
+                                  ),
+                                  subtitle: Text(
+                                    dateTimeFormat('relative',
+                                        listViewNotesRecord.timestamp),
+                                    style:
+                                        FlutterFlowTheme.of(context).subtitle2,
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xFF303030),
+                                    size: 20,
+                                  ),
+                                  tileColor: Color(0xFFF5F5F5),
+                                  dense: false,
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          0, 5, 0, 5),
                                 ),
-                              ],
-                              child: ListTile(
-                                title: Text(
-                                  listViewNotesRecord.type,
-                                  style: FlutterFlowTheme.of(context).title3,
-                                ),
-                                subtitle: Text(
-                                  dateTimeFormat('relative',
-                                      listViewNotesRecord.timestamp),
-                                  style: FlutterFlowTheme.of(context).subtitle2,
-                                ),
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF303030),
-                                  size: 20,
-                                ),
-                                tileColor: Color(0xFFF5F5F5),
-                                dense: false,
-                                contentPadding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                               ),
                             );
                           },

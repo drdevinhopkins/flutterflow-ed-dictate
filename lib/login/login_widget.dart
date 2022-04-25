@@ -1,6 +1,8 @@
+import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../home_page/home_page_widget.dart';
 import '../flutter_flow/custom_functions.dart' as functions;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -84,8 +86,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                     indicatorColor: Colors.white,
                     tabs: [
-                      Tab(),
-                      Tab(),
+                      Tab(
+                        text: 'Login',
+                      ),
+                      Tab(
+                        text: 'Create Account',
+                      ),
                     ],
                   ),
                   Expanded(
@@ -157,6 +163,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                               loginEmailAddressController,
                                           obscureText: false,
                                           decoration: InputDecoration(
+                                            labelText: 'Email Address',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -167,6 +174,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                     ),
+                                            hintText:
+                                                'Enter your email here...',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -221,6 +230,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           controller: loginPasswordController,
                                           obscureText: !loginPasswordVisibility,
                                           decoration: InputDecoration(
+                                            labelText: 'Password',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -231,6 +241,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                     ),
+                                            hintText:
+                                                'Enter your email here...',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -291,8 +303,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 16, 0, 0),
                                   child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('loginButton pressed ...');
+                                    onPressed: () async {
+                                      final user = await signInWithEmail(
+                                        context,
+                                        loginEmailAddressController.text,
+                                        loginPasswordController.text,
+                                      );
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomePageWidget(),
+                                        ),
+                                        (r) => false,
+                                      );
                                     },
                                     text: 'Login',
                                     options: FFButtonOptions(
@@ -555,6 +583,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           controller: createEmailController,
                                           obscureText: false,
                                           decoration: InputDecoration(
+                                            labelText: 'Email Address',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -565,6 +594,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                     ),
+                                            hintText:
+                                                'Enter your email here...',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -620,6 +651,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           obscureText:
                                               !createPasswordVisibility,
                                           decoration: InputDecoration(
+                                            labelText: 'Password',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -630,6 +662,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                     ),
+                                            hintText: 'Enter your password',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -699,6 +732,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           obscureText:
                                               !confirmPasswordVisibility,
                                           decoration: InputDecoration(
+                                            labelText: 'Confirm Password',
                                             labelStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -709,6 +743,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       fontWeight:
                                                           FontWeight.normal,
                                                     ),
+                                            hintText:
+                                                'Enter the same password as above.',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyText1
@@ -769,8 +805,37 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 20, 0, 0),
                                   child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('loginButton pressed ...');
+                                    onPressed: () async {
+                                      if (createPasswordController.text !=
+                                          confirmPasswordController.text) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Passwords don\'t match!',
+                                            ),
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      final user = await createAccountWithEmail(
+                                        context,
+                                        createEmailController.text,
+                                        createPasswordController.text,
+                                      );
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      await Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              HomePageWidget(),
+                                        ),
+                                        (r) => false,
+                                      );
                                     },
                                     text: 'Create Account',
                                     options: FFButtonOptions(
@@ -872,15 +937,34 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   2, 2, 2, 2),
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              'assets/images/social_GoogleWhite.svg',
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final user =
+                                                  await signInWithGoogle(
+                                                      context);
+                                              if (user == null) {
+                                                return;
+                                              }
+                                              await Navigator
+                                                  .pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePageWidget(),
+                                                ),
+                                                (r) => false,
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/images/social_GoogleWhite.svg',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -897,15 +981,34 @@ class _LoginWidgetState extends State<LoginWidget> {
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   2, 2, 2, 2),
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            clipBehavior: Clip.antiAlias,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: SvgPicture.asset(
-                                              'assets/images/social_Apple.svg',
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final user =
+                                                  await signInWithApple(
+                                                      context);
+                                              if (user == null) {
+                                                return;
+                                              }
+                                              await Navigator
+                                                  .pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomePageWidget(),
+                                                ),
+                                                (r) => false,
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: SvgPicture.asset(
+                                                'assets/images/social_Apple.svg',
+                                              ),
                                             ),
                                           ),
                                         ),

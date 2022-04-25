@@ -2,6 +2,9 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../phone_auth/phone_auth_widget.dart';
+import '../selected_session/selected_session_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +17,7 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
+  SessionsRecord newSession;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -26,10 +30,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         actions: [
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-            child: Icon(
-              Icons.logout,
-              color: FlutterFlowTheme.of(context).tertiaryColor,
-              size: 24,
+            child: InkWell(
+              onTap: () async {
+                await signOut();
+                await Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PhoneAuthWidget(),
+                  ),
+                  (r) => false,
+                );
+              },
+              child: Icon(
+                Icons.logout,
+                color: FlutterFlowTheme.of(context).tertiaryColor,
+                size: 24,
+              ),
             ),
           ),
         ],
@@ -38,8 +54,25 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       ),
       backgroundColor: Color(0xFFF5F5F5),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('FloatingActionButton pressed ...');
+        onPressed: () async {
+          final sessionsCreateData = createSessionsRecordData(
+            user: currentUserReference,
+            timestamp: getCurrentTimestamp,
+          );
+          var sessionsRecordReference = SessionsRecord.collection.doc();
+          await sessionsRecordReference.set(sessionsCreateData);
+          newSession = SessionsRecord.getDocumentFromData(
+              sessionsCreateData, sessionsRecordReference);
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SelectedSessionWidget(
+                selectedSession: newSession.reference,
+              ),
+            ),
+          );
+
+          setState(() {});
         },
         backgroundColor: FlutterFlowTheme.of(context).primaryColor,
         elevation: 8,
@@ -91,33 +124,47 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       itemBuilder: (context, listViewIndex) {
                         final listViewSessionsRecord =
                             listViewSessionsRecordList[listViewIndex];
-                        return Slidable(
-                          actionPane: const SlidableScrollActionPane(),
-                          secondaryActions: [
-                            IconSlideAction(
-                              caption: '',
-                              color: Color(0xFFD32F2F),
-                              icon: Icons.delete_outline,
-                              onTap: () {
-                                print('SlidableActionWidget pressed ...');
-                              },
+                        return InkWell(
+                          onTap: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelectedSessionWidget(
+                                  selectedSession:
+                                      listViewSessionsRecord.reference,
+                                ),
+                              ),
+                            );
+                          },
+                          child: Slidable(
+                            actionPane: const SlidableScrollActionPane(),
+                            secondaryActions: [
+                              IconSlideAction(
+                                caption: 'Delete',
+                                color: Color(0xFFD32F2F),
+                                icon: Icons.delete_outline,
+                                onTap: () async {
+                                  await listViewSessionsRecord.reference
+                                      .delete();
+                                },
+                              ),
+                            ],
+                            child: ListTile(
+                              title: Text(
+                                dateTimeFormat(
+                                    'MMMEd', listViewSessionsRecord.timestamp),
+                                style: FlutterFlowTheme.of(context).title3,
+                              ),
+                              trailing: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFF303030),
+                                size: 20,
+                              ),
+                              tileColor: Color(0xFFF5F5F5),
+                              dense: false,
+                              contentPadding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                             ),
-                          ],
-                          child: ListTile(
-                            title: Text(
-                              dateTimeFormat(
-                                  'MMMEd', listViewSessionsRecord.timestamp),
-                              style: FlutterFlowTheme.of(context).title3,
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Color(0xFF303030),
-                              size: 20,
-                            ),
-                            tileColor: Color(0xFFF5F5F5),
-                            dense: false,
-                            contentPadding:
-                                EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                           ),
                         );
                       },

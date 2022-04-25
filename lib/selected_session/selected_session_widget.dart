@@ -1,6 +1,8 @@
+import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../selected_patient/selected_patient_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,6 +21,7 @@ class SelectedSessionWidget extends StatefulWidget {
 }
 
 class _SelectedSessionWidgetState extends State<SelectedSessionWidget> {
+  PatientsRecord newPatient;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -57,8 +60,25 @@ class _SelectedSessionWidgetState extends State<SelectedSessionWidget> {
           ),
           backgroundColor: Color(0xFFF5F5F5),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              print('FloatingActionButton pressed ...');
+            onPressed: () async {
+              final patientsCreateData = createPatientsRecordData(
+                timestamp: getCurrentTimestamp,
+                session: widget.selectedSession,
+              );
+              var patientsRecordReference = PatientsRecord.collection.doc();
+              await patientsRecordReference.set(patientsCreateData);
+              newPatient = PatientsRecord.getDocumentFromData(
+                  patientsCreateData, patientsRecordReference);
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SelectedPatientWidget(
+                    selectedPatient: newPatient.reference,
+                  ),
+                ),
+              );
+
+              setState(() {});
             },
             backgroundColor: FlutterFlowTheme.of(context).primaryColor,
             elevation: 8,
@@ -112,42 +132,57 @@ class _SelectedSessionWidgetState extends State<SelectedSessionWidget> {
                           itemBuilder: (context, listViewIndex) {
                             final listViewPatientsRecord =
                                 listViewPatientsRecordList[listViewIndex];
-                            return Slidable(
-                              actionPane: const SlidableScrollActionPane(),
-                              secondaryActions: [
-                                IconSlideAction(
-                                  caption: '',
-                                  color: Color(0xFFD32F2F),
-                                  icon: Icons.delete_outline,
-                                  onTap: () {
-                                    print('SlidableActionWidget pressed ...');
-                                  },
+                            return InkWell(
+                              onTap: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SelectedPatientWidget(
+                                      selectedPatient:
+                                          listViewPatientsRecord.reference,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: Slidable(
+                                actionPane: const SlidableScrollActionPane(),
+                                secondaryActions: [
+                                  IconSlideAction(
+                                    caption: 'Delete',
+                                    color: Color(0xFFD32F2F),
+                                    icon: Icons.delete_outline,
+                                    onTap: () async {
+                                      await listViewPatientsRecord.reference
+                                          .delete();
+                                    },
+                                  ),
+                                ],
+                                child: ListTile(
+                                  title: Text(
+                                    '${listViewPatientsRecord.lastName}, ${listViewPatientsRecord.firstName}',
+                                    style: FlutterFlowTheme.of(context).title3,
+                                  ),
+                                  subtitle: Text(
+                                    dateTimeFormat('relative',
+                                        listViewPatientsRecord.timestamp),
+                                    style: FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 16,
+                                        ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xFF303030),
+                                    size: 20,
+                                  ),
+                                  tileColor: Color(0xFFF5F5F5),
+                                  dense: false,
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          0, 5, 0, 5),
                                 ),
-                              ],
-                              child: ListTile(
-                                title: Text(
-                                  '${listViewPatientsRecord.lastName}, ${listViewPatientsRecord.firstName}',
-                                  style: FlutterFlowTheme.of(context).title3,
-                                ),
-                                subtitle: Text(
-                                  dateTimeFormat('relative',
-                                      listViewPatientsRecord.timestamp),
-                                  style: FlutterFlowTheme.of(context)
-                                      .subtitle2
-                                      .override(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 16,
-                                      ),
-                                ),
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF303030),
-                                  size: 20,
-                                ),
-                                tileColor: Color(0xFFF5F5F5),
-                                dense: false,
-                                contentPadding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 5, 0, 5),
                               ),
                             );
                           },

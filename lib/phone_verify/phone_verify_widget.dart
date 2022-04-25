@@ -1,6 +1,8 @@
+import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -93,10 +95,15 @@ class _PhoneVerifyWidgetState extends State<PhoneVerifyWidget> {
                                   color: Color(0xFFDBE2E7),
                                 ),
                               ),
-                              child: Icon(
-                                Icons.arrow_back_rounded,
-                                color: Color(0xFF090F13),
-                                size: 24,
+                              child: InkWell(
+                                onTap: () async {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_rounded,
+                                  color: Color(0xFF090F13),
+                                  size: 24,
+                                ),
                               ),
                             ),
                           ),
@@ -126,6 +133,7 @@ class _PhoneVerifyWidgetState extends State<PhoneVerifyWidget> {
                               controller: phoneNumberController,
                               obscureText: false,
                               decoration: InputDecoration(
+                                labelText: 'Enter 6 digit code here...',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .bodyText1
                                     .override(
@@ -134,6 +142,7 @@ class _PhoneVerifyWidgetState extends State<PhoneVerifyWidget> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     ),
+                                hintText: '000000',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .bodyText1
                                     .override(
@@ -181,8 +190,31 @@ class _PhoneVerifyWidgetState extends State<PhoneVerifyWidget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           FFButtonWidget(
-                            onPressed: () {
-                              print('Button pressed ...');
+                            onPressed: () async {
+                              if (phoneNumberController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                        Text('Enter SMS verification code.'),
+                                  ),
+                                );
+                                return;
+                              }
+                              final phoneVerifiedUser = await verifySmsCode(
+                                context: context,
+                                smsCode: phoneNumberController.text,
+                              );
+                              if (phoneVerifiedUser == null) {
+                                return;
+                              }
+
+                              await Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => HomePageWidget(),
+                                ),
+                                (r) => false,
+                              );
                             },
                             text: 'Verify',
                             options: FFButtonOptions(
