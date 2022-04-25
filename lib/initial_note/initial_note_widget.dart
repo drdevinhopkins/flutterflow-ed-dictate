@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InitialNoteWidget extends StatefulWidget {
-  InitialNoteWidget({
+  const InitialNoteWidget({
     Key key,
     this.selectedNote,
   }) : super(key: key);
@@ -33,7 +33,7 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
             ),
           );
@@ -42,14 +42,14 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.primaryColor,
+            backgroundColor: FlutterFlowTheme.of(context).primaryColor,
             automaticallyImplyLeading: true,
             title: Text(
               initialNoteNotesRecord.type,
-              style: FlutterFlowTheme.title2.override(
-                fontFamily: 'Poppins',
-                color: FlutterFlowTheme.tertiaryColor,
-              ),
+              style: FlutterFlowTheme.of(context).title2.override(
+                    fontFamily: 'Poppins',
+                    color: FlutterFlowTheme.of(context).tertiaryColor,
+                  ),
             ),
             actions: [],
             centerTitle: true,
@@ -63,22 +63,14 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
               child: Column(
                 children: [
                   TabBar(
-                    labelColor: FlutterFlowTheme.primaryColor,
-                    labelStyle: FlutterFlowTheme.bodyText1,
-                    indicatorColor: FlutterFlowTheme.secondaryColor,
+                    labelColor: FlutterFlowTheme.of(context).primaryColor,
+                    labelStyle: FlutterFlowTheme.of(context).bodyText1,
+                    indicatorColor: FlutterFlowTheme.of(context).secondaryColor,
                     tabs: [
-                      Tab(
-                        text: 'History',
-                      ),
-                      Tab(
-                        text: 'Exam',
-                      ),
-                      Tab(
-                        text: 'Results',
-                      ),
-                      Tab(
-                        text: 'Plan',
-                      )
+                      Tab(),
+                      Tab(),
+                      Tab(),
+                      Tab(),
                     ],
                   ),
                   Expanded(
@@ -91,58 +83,38 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                             Padding(
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(5, 5, 5, 5),
-                              child: InkWell(
-                                onTap: () async {
-                                  await showDialog(
-                                    context: context,
-                                    builder: (alertDialogContext) {
-                                      return AlertDialog(
-                                        title: Text('test'),
-                                        content: Text('test'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                                alertDialogContext),
-                                            child: Text('Ok'),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: Color(0xFFF5F5F5),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20, 20, 20, 20),
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(-1, 0),
-                                          child: AutoSizeText(
-                                            'Chief Complaint(s)',
-                                            textAlign: TextAlign.start,
-                                            style: FlutterFlowTheme.subtitle2,
+                              child: Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color: Color(0xFFF5F5F5),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 20, 20, 20),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: AutoSizeText(
+                                          'Chief Complaint(s)',
+                                          textAlign: TextAlign.start,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment: AlignmentDirectional(-1, 0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 20, 0, 0),
+                                          child: Text(
+                                            initialNoteNotesRecord.cc,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                        Align(
-                                          alignment:
-                                              AlignmentDirectional(-1, 0),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 20, 0, 0),
-                                            child: Text(
-                                              initialNoteNotesRecord.cc,
-                                              style: FlutterFlowTheme.bodyText1,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -164,7 +136,8 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                         child: AutoSizeText(
                                           'History of Present Illness',
                                           textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
                                         ),
                                       ),
                                       Align(
@@ -175,10 +148,11 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                                   0, 20, 0, 0),
                                           child: Text(
                                             initialNoteNotesRecord.hpi,
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -201,7 +175,8 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                         child: AutoSizeText(
                                           'Relevant Past Medical & Surgical History',
                                           textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
                                         ),
                                       ),
                                       Align(
@@ -215,10 +190,11 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                               initialNoteNotesRecord.pmhx,
                                               'Healthy',
                                             ),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -241,7 +217,8 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                         child: AutoSizeText(
                                           'Relevant Social History',
                                           textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
                                         ),
                                       ),
                                       Align(
@@ -255,10 +232,11 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                               initialNoteNotesRecord.socialhx,
                                               'N/A',
                                             ),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -281,7 +259,8 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                         child: AutoSizeText(
                                           'Allergies',
                                           textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
                                         ),
                                       ),
                                       Align(
@@ -295,10 +274,11 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                               initialNoteNotesRecord.allergies,
                                               'NKDA',
                                             ),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -321,7 +301,8 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                         child: AutoSizeText(
                                           'Medications',
                                           textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.subtitle2,
+                                          style: FlutterFlowTheme.of(context)
+                                              .subtitle2,
                                         ),
                                       ),
                                       Align(
@@ -335,38 +316,42 @@ class _InitialNoteWidgetState extends State<InitialNoteWidget> {
                                               initialNoteNotesRecord.meds,
                                               'See DSQ list',
                                             ),
-                                            style: FlutterFlowTheme.bodyText1,
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyText1,
                                           ),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                         Text(
                           'Tab View 2',
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 32,
-                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 32,
+                                  ),
                         ),
                         Text(
                           'Tab View 3',
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 32,
-                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 32,
+                                  ),
                         ),
                         Text(
                           'Tab View 4',
-                          style: FlutterFlowTheme.bodyText1.override(
-                            fontFamily: 'Poppins',
-                            fontSize: 32,
-                          ),
-                        )
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 32,
+                                  ),
+                        ),
                       ],
                     ),
                   ),

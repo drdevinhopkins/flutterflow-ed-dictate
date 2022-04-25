@@ -1,6 +1,6 @@
 {
-    "name": "ed_dictate",
-    "short_name": "ed_dictate",
+    "name": "ed-dictate",
+    "short_name": "ed-dictate",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

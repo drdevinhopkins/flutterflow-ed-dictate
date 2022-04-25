@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SelectedNoteWidget extends StatefulWidget {
-  SelectedNoteWidget({
+  const SelectedNoteWidget({
     Key key,
     this.selectedNote,
   }) : super(key: key);
@@ -32,7 +32,7 @@ class _SelectedNoteWidgetState extends State<SelectedNoteWidget> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                color: FlutterFlowTheme.primaryColor,
+                color: FlutterFlowTheme.of(context).primaryColor,
               ),
             ),
           );
@@ -41,14 +41,14 @@ class _SelectedNoteWidgetState extends State<SelectedNoteWidget> {
         return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.primaryColor,
+            backgroundColor: FlutterFlowTheme.of(context).primaryColor,
             automaticallyImplyLeading: true,
             title: Text(
               selectedNoteNotesRecord.type,
-              style: FlutterFlowTheme.title2.override(
-                fontFamily: 'Poppins',
-                color: FlutterFlowTheme.tertiaryColor,
-              ),
+              style: FlutterFlowTheme.of(context).title2.override(
+                    fontFamily: 'Poppins',
+                    color: FlutterFlowTheme.of(context).tertiaryColor,
+                  ),
             ),
             actions: [],
             centerTitle: true,

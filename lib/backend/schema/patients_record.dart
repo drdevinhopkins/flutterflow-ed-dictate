@@ -50,6 +50,10 @@ abstract class PatientsRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<PatientsRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   PatientsRecord._();
   factory PatientsRecord([void Function(PatientsRecordBuilder) updates]) =
       _$PatientsRecord;

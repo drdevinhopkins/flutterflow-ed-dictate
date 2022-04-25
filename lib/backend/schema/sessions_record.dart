@@ -30,6 +30,10 @@ abstract class SessionsRecord
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<SessionsRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   SessionsRecord._();
   factory SessionsRecord([void Function(SessionsRecordBuilder) updates]) =
       _$SessionsRecord;

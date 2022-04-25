@@ -56,6 +56,10 @@ abstract class NotesRecord implements Built<NotesRecord, NotesRecordBuilder> {
       .snapshots()
       .map((s) => serializers.deserializeWith(serializer, serializedData(s)));
 
+  static Future<NotesRecord> getDocumentOnce(DocumentReference ref) => ref
+      .get()
+      .then((s) => serializers.deserializeWith(serializer, serializedData(s)));
+
   NotesRecord._();
   factory NotesRecord([void Function(NotesRecordBuilder) updates]) =
       _$NotesRecord;

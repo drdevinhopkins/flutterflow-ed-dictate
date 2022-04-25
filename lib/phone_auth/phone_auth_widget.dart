@@ -1,13 +1,11 @@
-import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../phone_verify/phone_verify_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PhoneAuthWidget extends StatefulWidget {
-  PhoneAuthWidget({Key key}) : super(key: key);
+  const PhoneAuthWidget({Key key}) : super(key: key);
 
   @override
   _PhoneAuthWidgetState createState() => _PhoneAuthWidgetState();
@@ -15,7 +13,6 @@ class PhoneAuthWidget extends StatefulWidget {
 
 class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
   TextEditingController phoneNumberController;
-  bool _loadingButton = false;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -59,7 +56,7 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                       width: 240,
                       height: 60,
                       fit: BoxFit.cover,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -96,29 +93,25 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                                   color: Color(0xFFDBE2E7),
                                 ),
                               ),
-                              child: InkWell(
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_rounded,
-                                  color: Color(0xFF090F13),
-                                  size: 24,
-                                ),
+                              child: Icon(
+                                Icons.arrow_back_rounded,
+                                color: Color(0xFF090F13),
+                                size: 24,
                               ),
                             ),
                           ),
                           Expanded(
                             child: Text(
                               'Phone Sign In',
-                              style: FlutterFlowTheme.title1.override(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF090F13),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style:
+                                  FlutterFlowTheme.of(context).title1.override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Color(0xFF090F13),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -133,20 +126,22 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                               controller: phoneNumberController,
                               obscureText: false,
                               decoration: InputDecoration(
-                                labelText: 'Your Phone Number...',
-                                labelStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                                hintText: '+1 (204) 204-2056',
-                                hintStyle: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF95A1AC),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
+                                labelStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                hintStyle: FlutterFlowTheme.of(context)
+                                    .bodyText1
+                                    .override(
+                                      fontFamily: 'Lexend Deca',
+                                      color: Color(0xFF95A1AC),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Color(0xFFDBE2E7),
@@ -166,15 +161,17 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                                 contentPadding: EdgeInsetsDirectional.fromSTEB(
                                     16, 24, 0, 24),
                               ),
-                              style: FlutterFlowTheme.bodyText1.override(
-                                fontFamily: 'Lexend Deca',
-                                color: Color(0xFF2B343A),
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyText1
+                                  .override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Color(0xFF2B343A),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                               keyboardType: TextInputType.phone,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -185,49 +182,22 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           FFButtonWidget(
-                            onPressed: () async {
-                              setState(() => _loadingButton = true);
-                              try {
-                                if (phoneNumberController.text.isEmpty ||
-                                    !phoneNumberController.text
-                                        .startsWith('+')) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          'Phone Number is required and has to start with +.'),
-                                    ),
-                                  );
-                                  return;
-                                }
-                                await beginPhoneAuth(
-                                  context: context,
-                                  phoneNumber: phoneNumberController.text,
-                                  onCodeSent: () async {
-                                    await Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            PhoneVerifyWidget(),
-                                      ),
-                                      (r) => false,
-                                    );
-                                  },
-                                );
-                              } finally {
-                                setState(() => _loadingButton = false);
-                              }
+                            onPressed: () {
+                              print('Button pressed ...');
                             },
                             text: 'Sign In',
                             options: FFButtonOptions(
                               width: 130,
                               height: 50,
                               color: Color(0xFF4B39EF),
-                              textStyle: FlutterFlowTheme.subtitle2.override(
-                                fontFamily: 'Lexend Deca',
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              textStyle: FlutterFlowTheme.of(context)
+                                  .subtitle2
+                                  .override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                               elevation: 3,
                               borderSide: BorderSide(
                                 color: Colors.transparent,
@@ -235,14 +205,13 @@ class _PhoneAuthWidgetState extends State<PhoneAuthWidget> {
                               ),
                               borderRadius: 8,
                             ),
-                            loading: _loadingButton,
-                          )
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

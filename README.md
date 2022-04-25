@@ -1,4 +1,4 @@
-# ed_dictate
+# ed-dictate
 
 A new Flutter project.
 
