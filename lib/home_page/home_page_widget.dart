@@ -2,7 +2,8 @@ import '../auth/auth_util.dart';
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../phone_auth/phone_auth_widget.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../login/login_widget.dart';
 import '../selected_session/selected_session_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 await Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PhoneAuthWidget(),
+                    builder: (context) => LoginWidget(),
                   ),
                   (r) => false,
                 );
@@ -93,6 +94,40 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: Text(
                   'Sessions',
                   style: FlutterFlowTheme.of(context).title1,
+                ),
+              ),
+              FFButtonWidget(
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (alertDialogContext) {
+                      return AlertDialog(
+                        title: Text('Alert'),
+                        content: Text('hello'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(alertDialogContext),
+                            child: Text('Ok'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                text: 'Button',
+                options: FFButtonOptions(
+                  width: 130,
+                  height: 40,
+                  color: FlutterFlowTheme.of(context).primaryColor,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                      ),
+                  borderSide: BorderSide(
+                    color: Colors.transparent,
+                    width: 1,
+                  ),
+                  borderRadius: 12,
                 ),
               ),
               Expanded(

@@ -8,7 +8,7 @@ import 'auth/auth_util.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/internationalization.dart';
-import 'package:ed_dictate/phone_auth/phone_auth_widget.dart';
+import 'package:ed_dictate/login/login_widget.dart';
 import 'package:ed_dictate/home_page/home_page_widget.dart';
 
 void main() async {
@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
             )
           : currentUser.loggedIn
               ? HomePageWidget()
-              : PhoneAuthWidget(),
+              : LoginWidget(),
     );
   }
 }

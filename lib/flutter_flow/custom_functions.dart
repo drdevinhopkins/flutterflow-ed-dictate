@@ -12,3 +12,8 @@ import '../../auth/auth_util.dart';
 bool setVisibilityToFalse(String test) {
   return false;
 }
+
+String e3kit() {
+  // Add your function code here!
+  return 'oh hi there';
+}
